@@ -19,3 +19,20 @@ input,textarea{width:100%;font:inherit;color:inherit;background:var(--cartao);bo
 .dia.ok{background:var(--bordo);color:var(--papel)}.dia.atual{outline:2px solid var(--rosa)}
 details{margin:10px 0;border-top:1px dashed var(--ouro);padding-top:8px}summary{cursor:pointer;color:var(--bordo);font-style:italic}
 .biblia{font-size:1.1rem;white-space:pre-wrap}.peq{font-size:.85rem;opacity:.75}.erro{color:#b3261e}
+/* --- v0.2: nav, texto bíblico, estudo, mural --- */
+.nav{display:flex;justify-content:space-between;gap:12px;margin-bottom:6px}
+.nav a{color:var(--bordo)}
+select{font:inherit;color:inherit;background:var(--cartao);border:1px solid var(--ouro);border-radius:6px;padding:8px;margin:6px 0}
+.btn.peq{padding:5px 14px;font-size:.85rem}
+.btn:disabled{opacity:.6;cursor:wait}
+.biblia sup{font-size:.65em;color:var(--ouro);margin-right:2px;font-weight:600}
+.biblia .capitulo{display:block;font-family:var(--f-titulo),Georgia,serif;color:var(--bordo);margin:14px 0 4px;font-size:1rem}
+.estudo{margin-top:14px}.estudo h3{margin:1.2em 0 .3em}
+.estudo blockquote{margin:14px 0;padding:10px 14px;border-left:3px solid var(--bordo);background:rgba(176,141,87,.12);border-radius:0 6px 6px 0}
+.passagem{border-top:1px solid var(--ouro);margin-top:18px;padding-top:6px}
+.chave{background:rgba(176,141,87,.15);padding:8px 12px;border-radius:6px}
+.girando{display:inline-block;animation:gira 1.4s linear infinite;color:var(--ouro)}
+@keyframes gira{to{transform:rotate(360deg)}}
+.filtros{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.post{margin:14px 0}.post p{margin:.3em 0}
+.acoes{display:flex;gap:8px;margin-top:8px}
