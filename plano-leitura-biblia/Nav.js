@@ -1,9 +1,0 @@
-import Link from "next/link";
-export default function Nav() {
-  return (
-    <nav className="nav">
-      <Link href="/">← Início</Link>
-      <Link href="/mural">Mural da comunidade</Link>
-    </nav>
-  );
-}
