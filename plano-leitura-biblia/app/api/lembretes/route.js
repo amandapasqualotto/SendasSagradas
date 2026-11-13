@@ -24,7 +24,8 @@ export async function GET(req) {
 
   const { db, auth } = getAdmin();
   let q = db.collection("usuarios").where("notificacoesAtivas", "==", true);
-  if (!todos) q = q.where("horaLembrete", "==", hora);
+  const diario = url.searchParams.get("diario") === "1";
+  if (!todos && !diario) q = q.where("horaLembrete", "==", hora);
   const snap = await q.get();
 
   const cacheDias = {};
