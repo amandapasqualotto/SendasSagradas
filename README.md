@@ -1,9 +1,9 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:C98B94,100:7A2E3A&height=220&section=header&text=Sendas%20Sagradas%20❦&fontSize=46&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=Guided%20Bible%20reading%20%C3%97%20Generative%20AI%20%C3%97%20Community&descAlignY=58&descSize=18" width="100%" alt="banner"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:FF8FC7,100:C2185B&height=220&section=header&text=Sendas%20Sagradas%20❦&fontSize=46&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=Guided%20Bible%20reading%20%C3%97%20Generative%20AI%20%C3%97%20Community&descAlignY=58&descSize=18" width="100%" alt="banner"/>
 
 <a href="https://git.io/typing-svg">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&duration=3500&pause=900&color=7A2E3A&center=true&vCenter=true&width=750&lines=365-day+Bible+reading+plan;AI-powered+daily+study+with+Gemini;Real-time+community+wall;Daily+e-mail+reminders+with+Make" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&duration=3500&pause=900&color=FF4D94&center=true&vCenter=true&width=750&lines=365-day+Bible+reading+plan;AI-powered+daily+study+with+Gemini;Real-time+community+wall;Daily+e-mail+reminders+with+Make" alt="Typing SVG" />
 </a>
 
 <br/><br/>
@@ -12,9 +12,9 @@
 
 <br/>
 
-<a href="https://sendassagradas.vercel.app"><img src="https://img.shields.io/badge/Live%20demo-sendassagradas.vercel.app-7A2E3A?style=for-the-badge&logo=vercel&logoColor=white"/></a>
-![Version](https://img.shields.io/badge/version-0.2.0-B08D57?style=for-the-badge)
-![Status](https://img.shields.io/badge/status-online-C98B94?style=for-the-badge)
+<a href="https://sendassagradas.vercel.app"><img src="https://img.shields.io/badge/Live%20demo-sendassagradas.vercel.app-FF69B4?style=for-the-badge&logo=vercel&logoColor=white"/></a>
+![Version](https://img.shields.io/badge/version-0.2.0-FF1493?style=for-the-badge)
+![Status](https://img.shields.io/badge/status-online-E91E8C?style=for-the-badge)
 
 </div>
 
@@ -59,19 +59,19 @@ The goal is to turn daily reading into a **real moment of study**, with historic
 <td width="50%" valign="top">
 
 ### 💻 Front-end
-<img src="https://img.shields.io/badge/Next.js%2014-7A2E3A?style=for-the-badge&logo=nextdotjs&logoColor=white"/>
-<img src="https://img.shields.io/badge/React-B08D57?style=for-the-badge&logo=react&logoColor=white"/>
-<img src="https://img.shields.io/badge/JavaScript-C98B94?style=for-the-badge&logo=javascript&logoColor=white"/>
-<img src="https://img.shields.io/badge/CSS3-4A3426?style=for-the-badge&logo=css3&logoColor=white"/>
+<img src="https://img.shields.io/badge/Next.js%2014-FF69B4?style=for-the-badge&logo=nextdotjs&logoColor=white"/>
+<img src="https://img.shields.io/badge/React-FF1493?style=for-the-badge&logo=react&logoColor=white"/>
+<img src="https://img.shields.io/badge/JavaScript-E91E8C?style=for-the-badge&logo=javascript&logoColor=white"/>
+<img src="https://img.shields.io/badge/CSS3-C2185B?style=for-the-badge&logo=css3&logoColor=white"/>
 
 </td>
 <td width="50%" valign="top">
 
 ### ☁️ Back-end & Data
-<img src="https://img.shields.io/badge/Firebase%20Auth-7A2E3A?style=for-the-badge&logo=firebase&logoColor=white"/>
-<img src="https://img.shields.io/badge/Cloud%20Firestore-B08D57?style=for-the-badge&logo=firebase&logoColor=white"/>
-<img src="https://img.shields.io/badge/API%20Routes-C98B94?style=for-the-badge&logo=nextdotjs&logoColor=white"/>
-<img src="https://img.shields.io/badge/Firebase%20Admin-4A3426?style=for-the-badge&logo=firebase&logoColor=white"/>
+<img src="https://img.shields.io/badge/Firebase%20Auth-FF69B4?style=for-the-badge&logo=firebase&logoColor=white"/>
+<img src="https://img.shields.io/badge/Cloud%20Firestore-FF1493?style=for-the-badge&logo=firebase&logoColor=white"/>
+<img src="https://img.shields.io/badge/API%20Routes-E91E8C?style=for-the-badge&logo=nextdotjs&logoColor=white"/>
+<img src="https://img.shields.io/badge/Firebase%20Admin-C2185B?style=for-the-badge&logo=firebase&logoColor=white"/>
 
 </td>
 </tr>
@@ -79,18 +79,18 @@ The goal is to turn daily reading into a **real moment of study**, with historic
 <td width="50%" valign="top">
 
 ### 🤖 AI
-<img src="https://img.shields.io/badge/Google%20Gemini-7A2E3A?style=for-the-badge&logo=googlegemini&logoColor=white"/>
-<img src="https://img.shields.io/badge/Structured%20Output-B08D57?style=for-the-badge&logoColor=white"/>
-<img src="https://img.shields.io/badge/Prompt%20Engineering-C98B94?style=for-the-badge&logoColor=white"/>
+<img src="https://img.shields.io/badge/Google%20Gemini-FF69B4?style=for-the-badge&logo=googlegemini&logoColor=white"/>
+<img src="https://img.shields.io/badge/Structured%20Output-FF1493?style=for-the-badge&logoColor=white"/>
+<img src="https://img.shields.io/badge/Prompt%20Engineering-E91E8C?style=for-the-badge&logoColor=white"/>
 
 </td>
 <td width="50%" valign="top">
 
 ### 🚀 Deploy & Automation
-<img src="https://img.shields.io/badge/Vercel-7A2E3A?style=for-the-badge&logo=vercel&logoColor=white"/>
-<img src="https://img.shields.io/badge/GitHub-B08D57?style=for-the-badge&logo=github&logoColor=white"/>
-<img src="https://img.shields.io/badge/Make-C98B94?style=for-the-badge&logo=make&logoColor=white"/>
-<img src="https://img.shields.io/badge/Gmail-4A3426?style=for-the-badge&logo=gmail&logoColor=white"/>
+<img src="https://img.shields.io/badge/Vercel-FF69B4?style=for-the-badge&logo=vercel&logoColor=white"/>
+<img src="https://img.shields.io/badge/GitHub-FF1493?style=for-the-badge&logo=github&logoColor=white"/>
+<img src="https://img.shields.io/badge/Make-E91E8C?style=for-the-badge&logo=make&logoColor=white"/>
+<img src="https://img.shields.io/badge/Gmail-C2185B?style=for-the-badge&logo=gmail&logoColor=white"/>
 
 </td>
 </tr>
@@ -101,6 +101,7 @@ The goal is to turn daily reading into a **real moment of study**, with historic
 ## 🧭 Architecture
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#FFE4F1','primaryBorderColor':'#C2185B','primaryTextColor':'#4A0E2B','lineColor':'#FF1493','edgeLabelBackground':'#FFF0F7','fontFamily':'Fira Code'}}}%%
 flowchart LR
     U["Reader"] --> APP["Next.js app<br/>on Vercel"]
     APP <--> AUTH["Firebase Auth"]
@@ -179,19 +180,19 @@ O objetivo é transformar a leitura diária em um **momento real de estudo**, co
 <td width="50%" valign="top">
 
 ### 💻 Front-end
-<img src="https://img.shields.io/badge/Next.js%2014-7A2E3A?style=for-the-badge&logo=nextdotjs&logoColor=white"/>
-<img src="https://img.shields.io/badge/React-B08D57?style=for-the-badge&logo=react&logoColor=white"/>
-<img src="https://img.shields.io/badge/JavaScript-C98B94?style=for-the-badge&logo=javascript&logoColor=white"/>
-<img src="https://img.shields.io/badge/CSS3-4A3426?style=for-the-badge&logo=css3&logoColor=white"/>
+<img src="https://img.shields.io/badge/Next.js%2014-FF69B4?style=for-the-badge&logo=nextdotjs&logoColor=white"/>
+<img src="https://img.shields.io/badge/React-FF1493?style=for-the-badge&logo=react&logoColor=white"/>
+<img src="https://img.shields.io/badge/JavaScript-E91E8C?style=for-the-badge&logo=javascript&logoColor=white"/>
+<img src="https://img.shields.io/badge/CSS3-C2185B?style=for-the-badge&logo=css3&logoColor=white"/>
 
 </td>
 <td width="50%" valign="top">
 
 ### ☁️ Back-end e Dados
-<img src="https://img.shields.io/badge/Firebase%20Auth-7A2E3A?style=for-the-badge&logo=firebase&logoColor=white"/>
-<img src="https://img.shields.io/badge/Cloud%20Firestore-B08D57?style=for-the-badge&logo=firebase&logoColor=white"/>
-<img src="https://img.shields.io/badge/API%20Routes-C98B94?style=for-the-badge&logo=nextdotjs&logoColor=white"/>
-<img src="https://img.shields.io/badge/Firebase%20Admin-4A3426?style=for-the-badge&logo=firebase&logoColor=white"/>
+<img src="https://img.shields.io/badge/Firebase%20Auth-FF69B4?style=for-the-badge&logo=firebase&logoColor=white"/>
+<img src="https://img.shields.io/badge/Cloud%20Firestore-FF1493?style=for-the-badge&logo=firebase&logoColor=white"/>
+<img src="https://img.shields.io/badge/API%20Routes-E91E8C?style=for-the-badge&logo=nextdotjs&logoColor=white"/>
+<img src="https://img.shields.io/badge/Firebase%20Admin-C2185B?style=for-the-badge&logo=firebase&logoColor=white"/>
 
 </td>
 </tr>
@@ -199,18 +200,18 @@ O objetivo é transformar a leitura diária em um **momento real de estudo**, co
 <td width="50%" valign="top">
 
 ### 🤖 IA
-<img src="https://img.shields.io/badge/Google%20Gemini-7A2E3A?style=for-the-badge&logo=googlegemini&logoColor=white"/>
-<img src="https://img.shields.io/badge/Sa%C3%ADda%20Estruturada-B08D57?style=for-the-badge&logoColor=white"/>
-<img src="https://img.shields.io/badge/Prompt%20Engineering-C98B94?style=for-the-badge&logoColor=white"/>
+<img src="https://img.shields.io/badge/Google%20Gemini-FF69B4?style=for-the-badge&logo=googlegemini&logoColor=white"/>
+<img src="https://img.shields.io/badge/Sa%C3%ADda%20Estruturada-FF1493?style=for-the-badge&logoColor=white"/>
+<img src="https://img.shields.io/badge/Prompt%20Engineering-E91E8C?style=for-the-badge&logoColor=white"/>
 
 </td>
 <td width="50%" valign="top">
 
 ### 🚀 Deploy e Automação
-<img src="https://img.shields.io/badge/Vercel-7A2E3A?style=for-the-badge&logo=vercel&logoColor=white"/>
-<img src="https://img.shields.io/badge/GitHub-B08D57?style=for-the-badge&logo=github&logoColor=white"/>
-<img src="https://img.shields.io/badge/Make-C98B94?style=for-the-badge&logo=make&logoColor=white"/>
-<img src="https://img.shields.io/badge/Gmail-4A3426?style=for-the-badge&logo=gmail&logoColor=white"/>
+<img src="https://img.shields.io/badge/Vercel-FF69B4?style=for-the-badge&logo=vercel&logoColor=white"/>
+<img src="https://img.shields.io/badge/GitHub-FF1493?style=for-the-badge&logo=github&logoColor=white"/>
+<img src="https://img.shields.io/badge/Make-E91E8C?style=for-the-badge&logo=make&logoColor=white"/>
+<img src="https://img.shields.io/badge/Gmail-C2185B?style=for-the-badge&logo=gmail&logoColor=white"/>
 
 </td>
 </tr>
@@ -221,6 +222,7 @@ O objetivo é transformar a leitura diária em um **momento real de estudo**, co
 ## 🧭 Arquitetura
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#FFE4F1','primaryBorderColor':'#C2185B','primaryTextColor':'#4A0E2B','lineColor':'#FF1493','edgeLabelBackground':'#FFF0F7','fontFamily':'Fira Code'}}}%%
 flowchart LR
     U["Leitor"] --> APP["App Next.js<br/>na Vercel"]
     APP <--> AUTH["Firebase Auth"]
@@ -261,9 +263,9 @@ Texto bíblico: **Bíblia Livre (BLIVRE)** © Diego Santos, Mario Sérgio e Marc
 
 Feito com 💖 por **Amanda Pasqualotto**
 
-<a href="https://www.linkedin.com/in/amanda-pasqualotto-b14ab6327/"><img src="https://img.shields.io/badge/LinkedIn-7A2E3A?style=for-the-badge&logo=linkedin&logoColor=white"/></a>
-<a href="https://github.com/amandapasqualotto"><img src="https://img.shields.io/badge/GitHub-B08D57?style=for-the-badge&logo=github&logoColor=white"/></a>
-<a href="https://sendassagradas.vercel.app"><img src="https://img.shields.io/badge/Ver%20o%20app-C98B94?style=for-the-badge&logo=vercel&logoColor=white"/></a>
+<a href="https://www.linkedin.com/in/amanda-pasqualotto-b14ab6327/"><img src="https://img.shields.io/badge/LinkedIn-FF69B4?style=for-the-badge&logo=linkedin&logoColor=white"/></a>
+<a href="https://github.com/amandapasqualotto"><img src="https://img.shields.io/badge/GitHub-FF1493?style=for-the-badge&logo=github&logoColor=white"/></a>
+<a href="https://sendassagradas.vercel.app"><img src="https://img.shields.io/badge/Ver%20o%20app-E91E8C?style=for-the-badge&logo=vercel&logoColor=white"/></a>
 
 <br/><br/>
 
@@ -271,4 +273,4 @@ Feito com 💖 por **Amanda Pasqualotto**
 
 </div>
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:7A2E3A,100:C98B94&height=120&section=footer" width="100%" alt="footer"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:C2185B,100:FF8FC7&height=120&section=footer" width="100%" alt="footer"/>
