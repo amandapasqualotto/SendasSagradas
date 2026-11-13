@@ -57,12 +57,7 @@ function Lembretes({ user, atual }) {
     <div className="card" id="lembretes"><h2>Lembrete diário</h2>
       <label><input type="checkbox" style={{ width: "auto" }} checked={!!p.notificacoesAtivas}
         onChange={(e) => salvar({ notificacoesAtivas: e.target.checked })} /> Quero receber por e-mail um lembrete da leitura do dia</label>
-      {p.notificacoesAtivas && <p>Horário:{" "}
-        <select value={p.horaLembrete} onChange={(e) => salvar({ horaLembrete: e.target.value })}>
-          {Array.from({ length: 24 }, (_, h) => <option key={h} value={h}>{String(h).padStart(2, "0")}:00</option>)}
-        </select></p>}
-      <p className="peq">Enviado para {user.email}. Se você já leu no dia, o lembrete não é enviado.</p>
-      <label className="peq">Seu nome no mural</label>
+      <p className="peq">Enviado para {user.email} todos os dias às 21h (horário de Brasília). Se você já leu no dia, o lembrete não é enviado.</p>      <label className="peq">Seu nome no mural</label>
       <input value={p.nome} maxLength={60} placeholder="Como você quer aparecer para os outros"
         onChange={(e) => setP({ ...p, nome: e.target.value })} onBlur={() => salvar({})} />
       {ok && <p className="peq">{ok}</p>}
