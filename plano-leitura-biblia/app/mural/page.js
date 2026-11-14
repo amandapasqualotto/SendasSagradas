@@ -29,7 +29,7 @@ export default function Mural() {
   useEffect(() => {
     // Pré-preenche quando vem do botão "Compartilhar no mural" de um dia
     const q = new URLSearchParams(window.location.search);
-    if (q.get("ref")) setF((x) => ({ ...x, referencia: q.get("ref"), dia: Number(q.get("dia")) || null }));
+    if (q.get("ref")) setF((x) => ({ ...x, referencia: q.get("ref"), dia: Number(q.get("dia")) || null, texto: q.get("texto") || x.texto }));
   }, []);
 
   useEffect(() => {

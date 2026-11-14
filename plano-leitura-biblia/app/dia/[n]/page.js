@@ -5,31 +5,37 @@ import Link from "next/link";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useAuth } from "@/lib/auth";
-import Relatorio from "@/components/Relatorio";
-import Nav from "@/components/Nav";
 import { CREDITO } from "@/lib/biblia.mjs";
+import { codigoDoPlano, porCodigo } from "@/lib/livros";
+import { idDia, idTrecho } from "@/lib/estudos";
+import { TOTAL } from "@/lib/progresso";
+import Leitor from "@/components/Leitor";
+import Estudo from "@/components/Estudo";
+import Nav from "@/components/Nav";
 
-const SECOES = [["contexto", "Contexto histórico, social e geográfico"], ["conexoes", "Conexões com outras passagens"], ["explicacao", "Explicação detalhada"]];
-const TOTAL = 365;
+const MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
 
-function TextoBiblico({ texto }) {
-  const varios = new Set(texto.map((v) => v.c)).size > 1;
+// Converte um item do plano em código do livro + capítulos
+function trecho(c) {
+  const codigo = codigoDoPlano(c.livro);
+  const c1 = c.livroInteiro ? 1 : c.capInicio;
+  const c2 = c.livroInteiro ? porCodigo[codigo]?.caps || 1 : c.capFim;
+  return { codigo, c1, c2, vers: c.versiculos || null };
+}
+
+function Secao({ titulo, sub, aberta, children }) {
   return (
-    <div className="biblia">
-      {texto.map((v, i) => (
-        <span key={i}>
-          {varios && (i === 0 || texto[i - 1].c !== v.c) && <span className="capitulo">Capítulo {v.c}</span>}
-          <sup>{v.v}</sup>{v.t}{" "}
-        </span>
-      ))}
-    </div>
+    <details className="secao-dia card" open={aberta}>
+      <summary><span className="titulo-secao">{titulo}</span>{sub && <span className="peq"> {sub}</span>}</summary>
+      <div className="corpo-secao">{children}</div>
+    </details>
   );
 }
 
 export default function Dia() {
   const n = Number(useParams().n); const { user, loading } = useAuth();
   const [dia, setDia] = useState(null); const [nota, setNota] = useState(""); const [feito, setFeito] = useState(false);
-  const [credito, setCredito] = useState(""); const [erroTexto, setErroTexto] = useState(false);
+  const [erroTexto, setErroTexto] = useState(false);
   const timer = useRef();
   const refProg = user && doc(db, "usuarios", user.uid, "progresso", String(n));
 
@@ -47,9 +53,8 @@ export default function Dia() {
           if (!r.ok) throw new Error();
           const j = await r.json();
           setDia({ ...d, capitulos: d.capitulos.map((c, i) => ({ ...c, texto: c.texto?.length ? c.texto : j.capitulos[i]?.texto })) });
-          setCredito(CREDITO);
         } catch { setErroTexto(true); }
-      } else setCredito(CREDITO);
+      }
     });
     getDoc(doc(db, "usuarios", user.uid, "progresso", String(n))).then((s) => {
       if (s.exists()) { setNota(s.data().anotacoes || ""); setFeito(!!s.data().concluido); }
@@ -62,45 +67,58 @@ export default function Dia() {
   }
   async function concluir() {
     await setDoc(refProg, { concluido: true, concluidoEm: serverTimestamp() }, { merge: true });
-    // usado pelos lembretes do n8n: qual o próximo dia e quando foi a última leitura
+    // usado pelos lembretes: qual o próximo dia e quando foi a última leitura
     await setDoc(doc(db, "usuarios", user.uid), { diaAtual: Math.min(n + 1, TOTAL), ultimaLeitura: serverTimestamp() }, { merge: true });
     setFeito(true);
   }
 
   if (loading) return <main><p>Carregando…</p></main>;
   if (!user) return <main><p><Link href="/">Entre para continuar</Link></p></main>;
-  if (dia === null) return <main><p>Carregando…</p></main>;
-  if (dia === false) return <main><p>Dia não encontrado. <Link href="/">Voltar</Link></p></main>;
-  const intro = dia.introducao;
+  if (dia === null) return <main><Nav /><p>Carregando…</p></main>;
+  if (dia === false) return <main><Nav /><p>Dia não encontrado. <Link href="/plano">Voltar</Link></p></main>;
+  const data = dia.origemCalendario ? `${dia.origemCalendario.dia} de ${MESES[dia.origemCalendario.mes - 1]}` : "";
+
   return (
-    <main><Nav /><h1>Dia {n}</h1><div className="orn">❦ ❦ ❦</div>
-      {intro ? (
-        <div className="card"><h2>Introdução</h2><p>{intro.oQueEsperar}</p>
-          {intro.licoes?.length > 0 && <ul>{intro.licoes.map((l, i) => <li key={i}>{l}</li>)}</ul>}
-          <p>{intro.resumo}</p>{intro.oracao && <><h3>Oração guiada</h3><p><em>{intro.oracao}</em></p></>}</div>
-      ) : null}
+    <main><Nav />
+      <h1>Dia {n}</h1>
+      {data && <p className="peq" style={{ textAlign: "center", margin: 0 }}>{data}</p>}
+      <div className="orn">❦ ❦ ❦</div>
 
-      {dia.capitulos?.map((c, i) => (
-        <div className="card" key={i}><h2>{c.referencia}</h2>
-          {c.texto?.length ? <TextoBiblico texto={c.texto} />
-            : c.textoBiblico ? <p className="biblia">{c.textoBiblico}</p>
-            : <p className="peq">{erroTexto ? "Não foi possível carregar o texto agora. Recarregue a página." : "Carregando o texto bíblico…"}</p>}
-          {SECOES.map(([k, t]) => c[k] && <details key={k}><summary>{t}</summary><p>{c[k]}</p></details>)}
-          {c.termos?.length > 0 && <details><summary>Termos-chave</summary><ul>{c.termos.map((t, j) => <li key={j}>{t}</li>)}</ul></details>}
-          <p style={{ textAlign: "right", margin: "10px 0 0" }}>
-            <Link className="btn peq" href={`/mural?dia=${n}&ref=${encodeURIComponent(c.referencia)}`}>Compartilhar no mural</Link></p>
-        </div>))}
-      {credito && <p className="peq" style={{ textAlign: "center" }}>{credito}</p>}
+      <Secao titulo="Visão geral do dia" sub={dia.capitulos.map((c) => c.referencia).join(" · ")} aberta>
+        <Estudo id={idDia(n, "geral")} user={user} rotulo="Ver visão geral" abertoInicial />
+      </Secao>
 
-      <Relatorio n={n} user={user} />
+      {dia.capitulos.map((c, i) => {
+        const t = trecho(c);
+        return (
+          <Secao key={i} titulo={c.referencia} sub={["Antigo Testamento", "Salmos e Provérbios", "Novo Testamento"][i] || ""}>
+            {c.texto?.length ? <Leitor versos={c.texto} codigo={t.codigo} titulo={c.referencia} user={user} />
+              : <p className="peq">{erroTexto ? "Não foi possível carregar o texto agora. Recarregue a página." : "Carregando o texto bíblico…"}</p>}
+            {t.codigo && <Estudo id={idTrecho(t.codigo, t.c1, t.c2, t.vers)} user={user} rotulo={`Estudar ${c.referencia}`} />}
+          </Secao>
+        );
+      })}
 
-      <div className="card"><h2>Minhas anotações</h2>
-        <textarea rows={6} value={nota} onChange={(e) => salvar(e.target.value)} placeholder="Escreva aqui o que Deus falou com você hoje…" /></div>
+      <Secao titulo="Oração e reflexões">
+        <Estudo id={idDia(n, "oracao")} user={user} rotulo="Abrir oração e reflexões" abertoInicial />
+      </Secao>
+
+      <Secao titulo="Minhas anotações" aberta={!!nota}>
+        <textarea rows={6} value={nota} onChange={(e) => salvar(e.target.value)} placeholder="Escreva aqui o que Deus falou com você hoje…" />
+      </Secao>
+
+      <p className="peq" style={{ textAlign: "center" }}>{CREDITO}</p>
       <div style={{ textAlign: "center" }}>
         {!feito ? <button className="btn cheio" onClick={concluir}>Concluir dia</button> : (
           <div className="card"><p>✓ Dia {n} concluído.</p>
             {n < TOTAL && <p><Link className="btn cheio" href={`/dia/${n + 1}`}>Ir para o Dia {n + 1}</Link></p>}
-            <p className="peq"><Link href="/#lembretes">Configurar lembrete diário</Link></p></div>)}
-      </div></main>
+            <p className="peq"><Link href="/conta#lembretes">Configurar lembrete diário</Link></p></div>)}
+      </div>
+      <div className="navegar">
+        {n > 1 ? <Link className="btn" href={`/dia/${n - 1}`}>← Dia {n - 1}</Link> : <span />}
+        <Link className="btn" href="/plano/visao-geral">Visão geral</Link>
+        {n < TOTAL ? <Link className="btn" href={`/dia/${n + 1}`}>Dia {n + 1} →</Link> : <span />}
+      </div>
+    </main>
   );
 }

@@ -7,8 +7,11 @@ service cloud.firestore {
     // Plano de leitura (com o texto bíblico) — só leitura; quem grava é o script de importação
     match /dias/{id} { allow read: if logado(); }
 
-    // Estudos gerados pela IA — gravados apenas pelo servidor (/api/relatorio)
+    // Estudos e significados gerados pela IA — gravados apenas pelo servidor (/api/estudo, /api/significado)
+    match /estudos/{id} { allow read: if logado(); }
+    match /significados/{id} { allow read: if logado(); }
     match /relatorios/{id} { allow read: if logado(); }
+    // fontes_expositor e fontes_panorama (materiais de apoio) não têm regra: só o servidor acessa
 
     // Lista de administradores (criada à mão no console) — podem apagar posts do mural
     match /admins/{uid} { allow read: if logado() && request.auth.uid == uid; }

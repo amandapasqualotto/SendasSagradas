@@ -1,10 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut } from "firebase/auth";
+import { collection, doc, getCountFromServer, getDoc, getDocs, limit, orderBy, query, setDoc } from "firebase/firestore";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
 import { useAuth } from "@/lib/auth";
+import { useProgresso, diaAtual, TOTAL } from "@/lib/progresso";
+import { porCodigo } from "@/lib/livros";
+import { SUGERIDOS } from "@/lib/sugeridos";
+import Nav from "@/components/Nav";
 
 function Login() {
   const [email, setEmail] = useState(""); const [senha, setSenha] = useState("");
@@ -32,62 +36,87 @@ function Login() {
   );
 }
 
-const TOTAL = 365;
-const DIAS = Array.from({ length: TOTAL }, (_, i) => i + 1);
+const ICONES = { youtube: "▶", instagram: "◎", podcast: "🎙", site: "🔗", livro: "📚" };
 
-function Lembretes({ user, atual }) {
-  const [p, setP] = useState(null); const [ok, setOk] = useState("");
-  useEffect(() => {
-    getDoc(doc(db, "usuarios", user.uid)).then((s) => {
-      setP({ notificacoesAtivas: false, horaLembrete: 7, nome: "", ...(s.exists() ? s.data() : {}) });
-      // mantém o "dia atual" usado pelos lembretes sempre em dia
-      if (s.exists() && s.data().diaAtual !== atual) setDoc(doc(db, "usuarios", user.uid), { diaAtual: atual }, { merge: true });
-    });
-  }, [user.uid, atual]);
-  async function salvar(mudanca) {
-    const novo = { ...p, ...mudanca }; setP(novo);
-    await setDoc(doc(db, "usuarios", user.uid), {
-      notificacoesAtivas: !!novo.notificacoesAtivas, horaLembrete: Number(novo.horaLembrete),
-      nome: (novo.nome || "").slice(0, 60), email: user.email, diaAtual: atual,
-    }, { merge: true });
-    setOk("Salvo ✓"); setTimeout(() => setOk(""), 1500);
-  }
-  if (!p) return null;
-  return (
-    <div className="card" id="lembretes"><h2>Lembrete diário</h2>
-      <label><input type="checkbox" style={{ width: "auto" }} checked={!!p.notificacoesAtivas}
-        onChange={(e) => salvar({ notificacoesAtivas: e.target.checked })} /> Quero receber por e-mail um lembrete da leitura do dia</label>
-      <p className="peq">Enviado para {user.email} todos os dias às 21h (horário de Brasília). Se você já leu no dia, o lembrete não é enviado.</p>      <label className="peq">Seu nome no mural</label>
-      <input value={p.nome} maxLength={60} placeholder="Como você quer aparecer para os outros"
-        onChange={(e) => setP({ ...p, nome: e.target.value })} onBlur={() => salvar({})} />
-      {ok && <p className="peq">{ok}</p>}
-    </div>
-  );
-}
+function Inicio({ user }) {
+  const feitos = useProgresso(user);
+  const [perfil, setPerfil] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const [nDest, setNDest] = useState(null);
 
-function Home({ user }) {
-  const [feitos, setFeitos] = useState(null);
   useEffect(() => {
-    getDocs(collection(db, "usuarios", user.uid, "progresso")).then((s) =>
-      setFeitos(new Set(s.docs.filter((d) => d.data().concluido).map((d) => Number(d.id)))));
+    getDoc(doc(db, "usuarios", user.uid)).then((s) => setPerfil(s.exists() ? s.data() : {}));
+    getDocs(query(collection(db, "mural"), orderBy("criadoEm", "desc"), limit(3)))
+      .then((s) => setPosts(s.docs.map((d) => ({ id: d.id, ...d.data() })))).catch(() => {});
+    getCountFromServer(collection(db, "usuarios", user.uid, "destaques"))
+      .then((s) => setNDest(s.data().count)).catch(() => setNDest(0));
   }, [user.uid]);
-  if (!feitos) return <main><p>Carregando…</p></main>;
-  const atual = DIAS.find((n) => !feitos.has(n)) ?? TOTAL;
+
+  const atual = feitos ? diaAtual(feitos) : null;
+  // mantém o "dia atual" usado pelos lembretes por e-mail sempre em dia
+  useEffect(() => {
+    if (perfil && atual && perfil.diaAtual !== atual) setDoc(doc(db, "usuarios", user.uid), { diaAtual: atual }, { merge: true });
+  }, [perfil, atual, user.uid]);
+
+  if (!feitos || !perfil) return <main><p>Carregando…</p></main>;
+  const nome = (perfil.nome || "").split(" ")[0];
+  const ub = perfil.ultimaBiblia;
+
   return (
-    <main><h1>Dia {atual} de {TOTAL}</h1><div className="orn">❦ ❦ ❦</div>
-      <div className="card"><div className="barra"><div style={{ width: `${(feitos.size / TOTAL) * 100}%` }} /></div>
-        <p className="peq">{feitos.size} dias concluídos</p>
-        <Link className="btn cheio" href={`/dia/${atual}`}>Continuar</Link>{" "}
-        <Link className="btn" href="/mural">Mural da comunidade</Link></div>
-      <div className="grade">{DIAS.map((n) => (
-        <Link key={n} href={`/dia/${n}`} className={`dia ${feitos.has(n) ? "ok" : ""} ${n === atual ? "atual" : ""}`}>{n}</Link>))}</div>
-      <Lembretes user={user} atual={atual} />
-      <p style={{ textAlign: "center", marginTop: 30 }}><button className="btn" onClick={() => signOut(auth)}>Sair</button></p></main>
+    <main className="largo"><Nav />
+      <h1>{nome ? `Olá, ${nome}!` : "Sendas Sagradas"}</h1><div className="orn">❦ ❦ ❦</div>
+      <div className="cards">
+        <section className="card">
+          <h2>Plano de estudo</h2>
+          <p>Você está no <strong>Dia {atual}</strong> de {TOTAL}.</p>
+          <div className="barra"><div style={{ width: `${(feitos.size / TOTAL) * 100}%` }} /></div>
+          <p className="peq">{feitos.size} dias concluídos</p>
+          <p className="botoes">
+            <Link className="btn cheio" href={`/dia/${atual}`}>Continuar</Link>
+            <Link className="btn" href="/plano/visao-geral">Visão geral</Link>
+          </p>
+        </section>
+
+        <section className="card">
+          <h2>Bíblia</h2>
+          <p>Leia livremente, livro por livro, com grifos, áudio e estudos.</p>
+          <p className="botoes">
+            {ub && porCodigo[ub.codigo] && <Link className="btn cheio" href={`/biblia/${ub.codigo.toLowerCase()}/${ub.cap}`}>Continuar em {porCodigo[ub.codigo].nome} {ub.cap}</Link>}
+            <Link className="btn" href="/biblia#at">Antigo Testamento</Link>
+            <Link className="btn" href="/biblia#nt">Novo Testamento</Link>
+          </p>
+        </section>
+
+        <section className="card">
+          <h2>Mural da comunidade</h2>
+          {posts.length === 0 ? <p className="peq">Ainda não há publicações. Que tal ser a primeira pessoa?</p>
+            : <ul className="previa">{posts.map((p) => (
+                <li key={p.id}><strong>{p.nome}</strong>{p.referencia ? ` · ${p.referencia}` : ""}: {p.texto.slice(0, 110)}{p.texto.length > 110 ? "…" : ""}</li>))}</ul>}
+          <p className="botoes"><Link className="btn" href="/mural">Abrir o mural</Link></p>
+        </section>
+
+        <section className="card">
+          <h2>Meus destaques</h2>
+          <p>{nDest ? `${nDest} versículo${nDest > 1 ? "s" : ""} grifado${nDest > 1 ? "s" : ""}.` : "Grife versículos durante a leitura para guardá-los aqui."}</p>
+          <p className="botoes"><Link className="btn" href="/destaques">Ver destaques</Link></p>
+        </section>
+      </div>
+
+      <h2 className="secao">Sugeridos</h2>
+      <p className="peq" style={{ textAlign: "center" }}>Pessoas e canais que ajudam a aprofundar o estudo.</p>
+      <div className="cards sugeridos">
+        {SUGERIDOS.map((s) => (
+          <a key={s.link} className="card sugerido" href={s.link} target="_blank" rel="noopener noreferrer">
+            <span className="icone">{ICONES[s.tipo] || "🔗"}</span>
+            <span><strong>{s.nome}</strong><br /><span className="peq">{s.descricao}</span></span>
+          </a>))}
+      </div>
+    </main>
   );
 }
 
 export default function Page() {
   const { user, loading } = useAuth();
   if (loading) return <main><p>Carregando…</p></main>;
-  return user ? <Home user={user} /> : <Login />;
+  return user ? <Inicio user={user} /> : <Login />;
 }

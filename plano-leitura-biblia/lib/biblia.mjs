@@ -90,6 +90,18 @@ export async function buscarCapitulo(traducao, codigo, cap, opts) {
     .map((b) => ({ c: cap, v: b.number, t: textoDe(b.content) }));
 }
 
+// Busca um trecho pelo código do livro: [{ c, v, t }]
+export async function buscarPorCodigo(codigo, c1, c2, vers, opts) {
+  const traducao = await idTraducao(opts);
+  const versos = [];
+  for (let c = c1; c <= c2; c++) versos.push(...(await buscarCapitulo(traducao, codigo, c, opts)));
+  if (vers) {
+    const [a, b] = String(vers).split("-").map(Number);
+    return versos.filter((x) => x.v >= a && x.v <= (b || a));
+  }
+  return versos;
+}
+
 // Recebe um item de `capitulos` do plano e devolve [{ c, v, t }]
 export async function buscarPassagem(item, opts) {
   const codigo = LIVROS[item.livro];
@@ -97,11 +109,5 @@ export async function buscarPassagem(item, opts) {
   const traducao = await idTraducao(opts);
   const ini = item.livroInteiro ? 1 : item.capInicio;
   const fim = item.livroInteiro ? await numCapitulos(traducao, codigo, opts) : item.capFim;
-  const versos = [];
-  for (let c = ini; c <= fim; c++) versos.push(...(await buscarCapitulo(traducao, codigo, c, opts)));
-  if (item.versiculos) {
-    const [a, b] = String(item.versiculos).split("-").map(Number);
-    return versos.filter((x) => x.v >= a && x.v <= (b || a));
-  }
-  return versos;
+  return buscarPorCodigo(codigo, ini, fim, item.versiculos, opts);
 }
