@@ -32,19 +32,27 @@ export default function Leitor({ versos, codigo, titulo, user }) {
   }, [user, codigo]);
 
   // Detecta uma palavra selecionada (duplo clique no computador / toque longo no celular)
+  const limpar = useRef();
   useEffect(() => {
     function aoSelecionar() {
       const s = window.getSelection();
-      const txt = s?.toString().trim();
+      const txt = s?.toString().trim().replace(/[.,;:!?“”"()]+$/g, "").replace(/^[“"(]+/, "");
       const el = s?.anchorNode?.parentElement?.closest?.("[data-k]");
-      if (txt && PALAVRA.test(txt) && el) setPalavra({ txt, k: el.dataset.k });
-      else if (!txt) setPalavra(null);
+      clearTimeout(limpar.current);
+      if (txt && PALAVRA.test(txt) && el) {
+        setPalavra({ txt, k: el.dataset.k });
+        setSel([]); // o duplo clique também marca o versículo: desfaz para mostrar o botão de significado
+      } else if (!txt) {
+        // espera um pouco: no celular, tocar no botão pode apagar a seleção antes do clique
+        limpar.current = setTimeout(() => setPalavra(null), 600);
+      }
     }
     document.addEventListener("selectionchange", aoSelecionar);
-    return () => document.removeEventListener("selectionchange", aoSelecionar);
+    return () => { document.removeEventListener("selectionchange", aoSelecionar); clearTimeout(limpar.current); };
   }, []);
 
-  function tocar(v) {
+  function tocar(v, e) {
+    if (e?.detail > 1) return; // segundo clique de um duplo clique
     if (window.getSelection()?.toString().trim()) return; // está selecionando texto
     const k = chave(v);
     setSel((s) => (s.includes(k) ? s.filter((x) => x !== k) : [...s, k]));
@@ -103,7 +111,7 @@ export default function Leitor({ versos, codigo, titulo, user }) {
           return (
             <span key={k}>
               {varios && (i === 0 || versos[i - 1].c !== v.c) && <span className="capitulo">Capítulo {v.c}</span>}
-              <span data-k={k} onClick={() => tocar(v)}
+              <span data-k={k} onClick={(e) => tocar(v, e)}
                 className={`verso${sel.includes(k) ? " sel" : ""}${grifos[k] ? ` g-${grifos[k]}` : ""}${lendo === k ? " lendo" : ""}`}>
                 <sup>{v.v}</sup>{v.t}
               </span>{" "}
