@@ -1,0 +1,7 @@
+node_modules
+.next
+.env.local
+service-account.json
+data/plano-com-textos.json
+data/fontes-sendas.json.gz
+fontes-pdf/
